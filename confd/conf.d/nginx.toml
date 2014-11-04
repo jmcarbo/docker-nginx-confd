@@ -1,0 +1,7 @@
+[template]
+src = "sites.tmpl"
+dest = "/etc/nginx/sites-enabled/sites"
+keys = [
+	"/webs"
+]
+reload_cmd = "/usr/sbin/service nginx restart"

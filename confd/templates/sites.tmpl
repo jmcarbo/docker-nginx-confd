@@ -1,0 +1,20 @@
+{{range $dir := lsdir "/webs"}}
+
+upstream {{base $dir}} {
+    {{$aupstream:= printf "/webs/%s/upstream" $dir}}
+    {{if ls $aupstream}}
+    {{$custdir := printf "/webs/%s/upstream/*" $dir}}{{range gets $custdir}}
+    server {{.Value}};
+    {{end}}
+    {{else}}
+    server 127.0.0.1:8080;
+    {{end}}
+}
+
+server {
+    server_name {{$key := printf "/webs/%s/domain" $dir}}{{ getv $key}};
+    location / {
+        proxy_pass http://{{base $dir}};
+    }
+}
+{{end}}
